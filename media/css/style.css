@@ -1,0 +1,101 @@
+.sample-app .header{
+  border:solid 1px gainsboro;
+  padding: 10px;
+  margin-bottom:15px;
+}
+.sample-app .title-container .logo{
+  height:50px;
+  width: 100px;
+}
+.sample-app .title-container .title {
+  vertical-align: top;
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-family: cursive;
+  display: inline-block;
+}
+.sample-app .container .search-container {
+  border:solid 1px gainsboro;
+  margin-bottom:15px;
+  grid-column:1 / 5;
+}
+.sample-app .container .search-container .sort-by-selectbox {
+  display: none;
+}
+.sample-app .container .search-container input {
+  margin:11px;
+  width:26%;
+}
+.sample-app .main-container {
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-column-gap:10px;
+}
+.sample-app .main-container .meta-data-container {
+  border:solid 1px gainsboro;
+  word-wrap: break-word;
+  grid-column: 1 / 2;
+}
+.sample-app .main-container .meta-data-container .meta-data-title {
+  text-align: center;
+}
+.sample-app .main-container .meta-data-container #meta-data-details {
+  padding:10px;
+  word-break: break-word;
+}
+.sample-app .main-container .list {
+  grid-column: 2/ 5;
+}
+.sample-app .main-container .list .table-container {
+  width:100%;
+  border-collapse:collapse;
+}
+.sample-app .main-container .list .table-container td,.sample-app .main-container .list .table-container th{
+  border:solid 1px gainsboro;
+  padding:10px;
+}
+.sample-app .main-container .list .table-container td {
+  text-align: center;
+}
+.sample-app .main-container .list .table-container thead tr {
+  box-shadow: 2px 2px 2px #ada9a9;
+  background: #f3f3f3;
+}
+/*-------------media queries for mobile---------------*/
+@media screen and (max-width:768px) {
+  .sample-app .main-container .mobile-view-item{
+    border:solid 1px gainsboro;
+    padding:10px;
+    margin-bottom:15px;
+  }
+  .sample-app .main-container .list .table-container {
+    display:none;
+  }
+  .sample-app .main-container .meta-data-container {
+    grid-column: 1 / 5;
+    grid-row: 1 / 2;
+    margin-bottom: 14px;
+  }
+  .sample-app .main-container .list {
+    grid-row:3/ 4;
+    grid-column: 1 / 5;
+  }
+  .sample-app .container .search-container {
+    grid-row:2 / 3;
+    grid-column: 1 / 5;
+    margin-bottom: 14px;
+  }
+  .sample-app .container .mobile-view-item .item {
+    display: flex;
+  }
+  .sample-app .container .mobile-view-item .item span:first-child{
+    flex-basis:30%;
+    font-weight: bold;
+  }
+  .sample-app .container .search-container .sort-by-selectbox {
+    float: right;
+    margin: 11px;
+    padding: 3px;
+    display: block;
+  }
+}

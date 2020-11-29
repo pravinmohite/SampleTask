@@ -1,42 +1,50 @@
 <!doctype html>
 <html>
 <head>
-    <script src="media/js/app.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+ <title>Test app</title>
+   <script type="module" src="media/js/apiService.js"></script> 
+   <script type="module" src="media/js/app.js"></script>
     <link rel="stylesheet" href="media/css/style.css">
 </head>
 <body>
- <header>
-    <div class="logo">
-        Sample Project
-        <img src=""/>
+<div class="sample-app">
+ <header class="header">
+    <div class="title-container">
+        <img class="logo" src="./media/images/sample-logo-design.png"/>
+        <span class="title">Sample Project</span>
     </div> 
  </header>   
-<div class="container"> 
- <div class="search-container">
-     <input type="text" placeholder="search"/>
- </div>
+ <div class="container"> 
  <div class="main-container">
-     <div class="meta-data-info">
-       Meta data
+    <div class="search-container">
+      <input type="text" placeholder="search" id="searchInput"/>
+      <select class="sort-by-selectbox">
+        <option>Username</option>
+        <option>Email</option> 
+      </select>
+    </div>
+    <div class="meta-data-container">
+      <div class="meta-data-title">Meta Data</div>
+      <div id="meta-data-details">
+      </div>
      </div>
-     <div class="details-list">
-       <table>
-           <thead>
-              <th>Name</th>
+     <div class="list">
+       <table class="table-container">
+           <thead id="table-header">
+              <th class="username">Username</th>
+              <th class="email">Email</th>
               <th>City</th>
-              <th>Company</th>
            </thead>
-          <tbody>
-            <tr>
-                <td>Pravin</td>
-                <td>Pune</td>
-                <td>EPAM</td>
-            </tr>
+          <tbody id="table-body">
           </tbody>
         </table>
+        <div id="mobile-view-container">
+        </div>
      </div>
  </div>
-</div>
-<footer></footer>
+ </div>
+ <footer></footer>
+</div>  
 </body>
 </html>
