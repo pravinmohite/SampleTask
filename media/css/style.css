@@ -38,6 +38,7 @@
 }
 .sample-app .main-container .meta-data-container .meta-data-title {
   text-align: center;
+  padding-top:10px;
 }
 .sample-app .main-container .meta-data-container #meta-data-details {
   padding:10px;
