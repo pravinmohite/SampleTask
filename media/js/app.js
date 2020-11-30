@@ -1,5 +1,5 @@
 import {test,getDetails} from './apiService.js'
-const desktopElem=document.getElementById('table-body');
+const desktopElem=document.getElementById('desktop-view-container');
 const mobileElem=document.getElementById('mobile-view-container');
 let detailList;
 let temporaryDetalList;
@@ -25,17 +25,33 @@ const renderForMobile=(data)=>{
     }
 }
 
+const listenToTableHeaderClick=()=>{
+    let element=document.getElementById('table-header');
+    element.addEventListener('click',(event)=>{
+      sortByColumn(event);
+    })
+}
+
 const renderForDesktop=(data)=>{
     desktopElem.innerHTML="";
+    let elemToBeAppended=""; 
+    elemToBeAppended+="<thead id='table-header'>";
+    elemToBeAppended+="<th class='username'>Username</th>";
+    elemToBeAppended+="<th class='email'>Email</th>";
+    elemToBeAppended+="<th>City</th>";
+
+    elemToBeAppended+="</thead>";
+    elemToBeAppended+="<tbody id='table-body'>";
      for(let i=0;i<data.length;i++) {
-        let elemToBeAppended="";   
         elemToBeAppended+="<tr>";
         elemToBeAppended+="<td>"+data[i].username+"</td>"
         elemToBeAppended+="<td>"+data[i].email+"</td>"
         elemToBeAppended+="<td>"+data[i].address.city+"</td>"
         elemToBeAppended+="</tr>";
-        desktopElem.innerHTML+=elemToBeAppended;
      }
+     elemToBeAppended+="</tbody>";
+     desktopElem.innerHTML+=elemToBeAppended;
+     listenToTableHeaderClick();
 }
 
 const renderTableFromData=(data)=> {
@@ -103,11 +119,6 @@ const sortByColumn=(event)=> {
 }
 
 //event listeners
-let element=document.getElementById('table-header');
-element.addEventListener('click',(event)=>{
-  sortByColumn(event);
-})
-
 let searchInputElement=document.getElementById('searchInput')
 searchInputElement.addEventListener('keyup',(event)=>{
     searchByUsernameEmail(event.target.value)
@@ -115,6 +126,5 @@ searchInputElement.addEventListener('keyup',(event)=>{
 
 let selectBoxElement=document.getElementsByClassName('sort-by-selectbox')[0];
 selectBoxElement.addEventListener('change',(event)=>{
-    console.log(event); 
     sortByColumn(event)
 })
