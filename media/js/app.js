@@ -5,6 +5,7 @@ let detailList;
 let temporaryDetalList;
 const metaDataElem=document.getElementById('meta-data-details');
 let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const maxMobileWidth=768;
 
 getDetails().then(response=>{
     detailList=response;
@@ -33,38 +34,73 @@ const listenToTableHeaderClick=()=>{
 }
 
 const renderForDesktop=(data)=>{
-    desktopElem.innerHTML="";
-    let elemToBeAppended=""; 
-    elemToBeAppended+="<thead id='table-header'>";
-    elemToBeAppended+="<th class='username'>Username</th>";
-    elemToBeAppended+="<th class='email'>Email</th>";
-    elemToBeAppended+="<th>City</th>";
-
-    elemToBeAppended+="</thead>";
-    elemToBeAppended+="<tbody id='table-body'>";
-     for(let i=0;i<data.length;i++) {
-        elemToBeAppended+="<tr>";
-        elemToBeAppended+="<td>"+data[i].username+"</td>"
-        elemToBeAppended+="<td>"+data[i].email+"</td>"
-        elemToBeAppended+="<td>"+data[i].address.city+"</td>"
-        elemToBeAppended+="</tr>";
-     }
-     elemToBeAppended+="</tbody>";
-     desktopElem.innerHTML+=elemToBeAppended;
-     listenToTableHeaderClick();
+    desktopElem.textContent="";
+    let thead=document.createElement('thead');
+    thead.setAttribute('id','table-header');
+    let tr=document.createElement('tr');
+    let thUsername=document.createElement('th');
+    thUsername.setAttribute('class','username');
+    thUsername.textContent='Username';
+    let thEmail=document.createElement('th');
+    thEmail.setAttribute('class','email');
+    thEmail.textContent='Email';
+    let thCity=document.createElement('th');
+    thCity.removeAttribute('class');
+    thCity.textContent='City';
+    tr.append(thUsername,thEmail,thCity);
+    thead.append(tr);
+    desktopElem.appendChild(thead);
+    let tbody=document.createElement('tbody');
+    tbody.setAttribute('id','table-body');
+    for(let i=0;i<data.length;i++) {
+        let tr=document.createElement('tr');
+        let tdUsername=document.createElement('td');
+        tdUsername.textContent=data[i].username;
+        let tdEmail=document.createElement('td');
+        tdEmail.textContent=data[i].email;
+        let tdCity=document.createElement('td');
+        tdCity.textContent=data[i].address.city;
+        tr.append(tdUsername,tdEmail,tdCity);
+        tbody.append(tr);
+    }
+    desktopElem.append(tbody);
+    listenToTableHeaderClick();
 }
 
 const renderTableFromData=(data)=> {
-   if(isMobile) { 
-    renderForMobile(data);
+   if(window.innerWidth>maxMobileWidth) { 
+    renderForDesktop(data);
    }  
    else {
-     renderForDesktop(data);
+     renderForMobile(data);
    }
 }
 
+const flatten=(obj,result={})=>{
+    for(let item in obj) {
+        if(typeof obj[item]=="object") {
+            flatten(obj[item],result);
+        }
+        else {
+            result[item]=obj[item];
+        }
+    }
+    return result;
+}
+
 const renderMetaData=(data)=>{
- metaDataElem.innerHTML+=JSON.stringify(data[0]);
+    let metaDataObject=flatten(data[0]);
+    for(let item in metaDataObject) {
+        let div=document.createElement('div');
+        div.className="meta-data-item";
+        let spanFirst=document.createElement('span');
+        spanFirst.textContent=item;
+        let spanSecond=document.createElement('span');
+        spanSecond.textContent=": "+metaDataObject[item]
+    //    div.textContent=item+": "+metaDataObject[item];
+         div.append(spanFirst,spanSecond);
+        metaDataElem.append(div)
+    }
 }
 
 const searchByUsernameEmail=(searchedString)=>{
@@ -119,12 +155,20 @@ const sortByColumn=(event)=> {
 }
 
 //event listeners
-let searchInputElement=document.getElementById('searchInput')
-searchInputElement.addEventListener('keyup',(event)=>{
-    searchByUsernameEmail(event.target.value)
-})
+const registerEventListeners=()=>{
+    let searchInputElement=document.getElementById('searchInput')
+    searchInputElement.addEventListener('keyup',(event)=>{
+        searchByUsernameEmail(event.target.value)
+    })
+    
+    let selectBoxElement=document.getElementsByClassName('sort-by-selectbox')[0];
+    selectBoxElement.addEventListener('change',(event)=>{
+        sortByColumn(event)
+    })
 
-let selectBoxElement=document.getElementsByClassName('sort-by-selectbox')[0];
-selectBoxElement.addEventListener('change',(event)=>{
-    sortByColumn(event)
-})
+    window.addEventListener('resize',()=>{
+      renderTableFromData(detailList);
+      console.log('called');
+    })
+}
+registerEventListeners();
