@@ -39,6 +39,11 @@
 .sample-app .main-container .meta-data-container .meta-data-title {
   text-align: center;
   padding-top:10px;
+  text-align: center;
+  border: solid 1px gainsboro;
+  padding: 9px;
+  box-shadow: 2px 2px 2px #9a9595;
+  background: #d3d3d3;
 }
 .sample-app .main-container .meta-data-container #meta-data-details {
   padding:10px;
