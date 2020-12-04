@@ -1,4 +1,4 @@
-import {test,getDetails} from './apiService.js'
+import {getDetails} from './apiService.js'
 const desktopElem=document.getElementById('desktop-view-container');
 const mobileElem=document.getElementById('mobile-view-container');
 let detailList;
@@ -16,13 +16,31 @@ getDetails().then(response=>{
 const renderForMobile=(data)=>{
     mobileElem.innerHTML="";
     for(let i=0;i<data.length;i++) {
-       let elemToBeAppended="";   
-       elemToBeAppended+="<div class='mobile-view-item'>";
-       elemToBeAppended+="<div class='item'><span>Username: </span><span>"+data[i].username+"</span></div>"
-       elemToBeAppended+="<div class='item'><span>Email: </span><span>"+data[i].email+"</span></div>"
-       elemToBeAppended+="<div class='item'><span>City: </span><span>"+data[i].address.city+"</span></div>"
-       elemToBeAppended+="</div>";
-       mobileElem.innerHTML+=elemToBeAppended;
+       let div=document.createElement('div');
+       div.className="mobile-view-item";
+       let divUsername=document.createElement('div');
+       divUsername.className="item";
+       let spanUsernameFirst=document.createElement('span');
+       spanUsernameFirst.textContent="Username: ";
+       let spanUsernameSecond=document.createElement('span');
+       spanUsernameSecond.textContent=data[i].username;
+       divUsername.append(spanUsernameFirst,spanUsernameSecond);
+       let divEmail=document.createElement('div');
+       divEmail.className="item";
+       let spanEmailFirst=document.createElement('span');
+       spanEmailFirst.textContent="Email: ";
+       let spanEmailSecond=document.createElement('span');
+       spanEmailSecond.textContent=data[i].email;
+       divEmail.append(spanEmailFirst,spanEmailSecond);
+       let divCity=document.createElement('div');
+       divCity.className="item";
+       let spanCityFirst=document.createElement('span');
+       spanCityFirst.textContent="City: ";
+       let spanCitySecond=document.createElement('span');
+       spanCitySecond.textContent=data[i].address.city;
+       divCity.append(spanCityFirst,spanCitySecond);
+       div.append(divUsername,divEmail,divCity);
+       mobileElem.append(div);
     }
 }
 
@@ -97,8 +115,7 @@ const renderMetaData=(data)=>{
         spanFirst.textContent=item;
         let spanSecond=document.createElement('span');
         spanSecond.textContent=": "+metaDataObject[item]
-    //    div.textContent=item+": "+metaDataObject[item];
-         div.append(spanFirst,spanSecond);
+        div.append(spanFirst,spanSecond);
         metaDataElem.append(div)
     }
 }
@@ -168,7 +185,6 @@ const registerEventListeners=()=>{
 
     window.addEventListener('resize',()=>{
       renderTableFromData(detailList);
-      console.log('called');
     })
 }
 registerEventListeners();
